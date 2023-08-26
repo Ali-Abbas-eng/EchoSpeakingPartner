@@ -2,3 +2,4 @@
 */.gradle
 */.idea
 */gradle
+*/__pycache__/
