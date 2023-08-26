@@ -1,1 +1,4 @@
 /Server/secret
+*/.gradle
+*/.idea
+*/gradle
