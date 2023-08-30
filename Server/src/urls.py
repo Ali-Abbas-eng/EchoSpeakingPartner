@@ -15,10 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from login import views as login_views  # Import your login app's API views
+from django.urls import include, path
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-v1/', include('login.urls'))  # Include the rest of your login app's URLs
+    path('super-users-axxes/', admin.site.urls),
+    path('api-auth/', include("rest_framework.urls")),
+    path('api/v1/dj-rest-auth/', include("dj_rest_auth.urls")),
+    path('api/v1/dj-rest-auth/registration/', include("dj_rest_auth.registration.urls"),
+    ),
 ]
