@@ -4,3 +4,5 @@
 */gradle
 */__pycache__/
 Server/db.sqlite3
+/ChatGPTDataEngine/secret
+Server/.idea
