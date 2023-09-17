@@ -3,3 +3,4 @@
 */.idea
 */gradle
 */__pycache__/
+Server/db.sqlite3
