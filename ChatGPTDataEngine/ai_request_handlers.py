@@ -1,7 +1,18 @@
+import random
+
 import assemblyai as aai
 import os
 import boto3
 from typing import Union
+import openai
+from globals import (
+    API_KEY,
+    IELTS_PART_1_PROMPT,
+    IELTS_PART_2_PROMPT,
+    IELTS_PART_3_PROMPT,
+    IELTS_PART_1_DUMMY_START_TRIGGER,
+    IELTS_POSSIBLE_TOPICS_LIST
+)
 
 
 class TextToSpeechEngine:
@@ -83,10 +94,62 @@ class SpeechToTextEngine:
         return transcript.text
 
 
-if __name__ == '__main__':
+class ChatGPTIELTSExaminer:
+    def __init__(self):
+        openai.api_key = open(API_KEY).read()
+        self.part_prompts = [
+            IELTS_PART_1_PROMPT,
+            IELTS_PART_2_PROMPT,
+            IELTS_PART_3_PROMPT
+        ]
+        self.session_topic = random.choice(IELTS_POSSIBLE_TOPICS_LIST)
+        self.current_part = 0
+        self.chat_history = [
+            {
+                "role": "system",
+                "content": self.part_prompts[0]
+            }
+        ]
+
+    def __call__(self, answer, part_index, *args, **kwargs):
+        if part_index != self.current_part:
+            self.current_part = part_index
+            self.chat_history.append(
+                {
+                    "role": "system",
+                    "content": self.part_prompts[part_index]
+                }
+            )
+        self.chat_history.append({
+                "role": "user",
+                "content": answer
+            })
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo-16k-0613",
+            messages=self.chat_history
+        )
+        response_role = completion.choices[0].message.role
+        response_content = completion.choices[0].message.content
+        self.chat_history.append({
+            "role": response_role,
+            "content": response_content
+        })
+        return response_content
+
+
+def test_text_to_speech():
     text_test = 'Hi, my name is Ali, and I really really need this call to work'
     file_id = 0
     tts_engin = TextToSpeechEngine()
     tts_engin(text_test, file_id=file_id)
+
+
+def test_speech_to_text():
     stt_engine = SpeechToTextEngine()
-    print(stt_engine(os.path.join(tts_engin.output_directory, f'{file_id}.{tts_engin.output_format}')))
+    transcript = stt_engine(os.path.join('test_files', 'test.mp3'))
+    print(transcript)
+
+
+if __name__ == '__main__':
+    test_text_to_speech()
+    test_speech_to_text()
