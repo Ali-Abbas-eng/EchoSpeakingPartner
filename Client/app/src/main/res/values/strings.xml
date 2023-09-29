@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Client</string>
+    <string name="app_name">EchoSpeakingPartner</string>
+    <string name="login">login</string>
+    <string name="email_hint">email@example.com</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">LOGIN</string>
+    <string name="register_text">Register</string>
+    <string name="click_to_login">Click to Login</string>
+    <string name="click_to_create_account">Click to Create Account</string>
+    <string name="logout">Logout</string>
 </resources>
