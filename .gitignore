@@ -3,6 +3,8 @@
 */.idea
 */gradle
 */__pycache__/
+ChatGPTDataEngine/output
+ChatGPTDataEngine/test_files
 Server/db.sqlite3
 /ChatGPTDataEngine/secret
 Server/.idea
