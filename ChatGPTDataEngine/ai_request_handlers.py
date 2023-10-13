@@ -134,16 +134,20 @@ class ChatGPTIELTSExaminer:
         Returns:
             str: The response from the GPT-3.5 model.
         """
-        completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-16k-0613",
-            messages=self.chat_history
-        )
-        response_role = completion.choices[0].message.role
-        response_content = completion.choices[0].message.content
-        self.chat_history.append({
-            "role": response_role,
-            "content": response_content
-        })
+        try:
+            completion = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo-16k-0613",
+                messages=self.chat_history
+            )
+            response_role = completion.choices[0].message.role
+            response_content = completion.choices[0].message.content
+            self.chat_history.append({
+                "role": response_role,
+                "content": response_content
+            })
+        except openai.error.ServiceUnavailableError:
+            print("Server ran into a problem, please try again later.")
+            response_content = None
         return response_content
 
     def initialise_test_part(self, part_index):
