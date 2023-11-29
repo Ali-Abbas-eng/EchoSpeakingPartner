@@ -4,3 +4,6 @@
 [submodule "client"]
 	path = client
 	url = git@bitbucket.org-Ali-Abbas-Personal:ali-abbas-personal/client.git
+[submodule "phoneclient"]
+	path = phoneclient
+	url = git@bitbucket.org-Ali-Abbas-Personal:ali-abbas-personal/phoneclient.git
