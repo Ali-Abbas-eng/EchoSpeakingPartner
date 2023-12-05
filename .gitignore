@@ -8,3 +8,4 @@ ChatGPTDataEngine/test_files
 Server/db.sqlite3
 /ChatGPTDataEngine/secret
 Server/.idea
+/server/db.sqlite3
