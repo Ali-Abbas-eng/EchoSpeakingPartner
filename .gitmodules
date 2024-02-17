@@ -1,12 +1,11 @@
 [submodule "server"]
 	path = server
 	url = git@bitbucket.org:ali-abbas-personal/server.git
-[submodule "client"]
-	path = client
-	url = git@bitbucket.org:ali-abbas-personal/client.git
+
 [submodule "phoneclient"]
 	path = phoneclient
 	url = git@bitbucket.org:ali-abbas-personal/phoneclient.git
+
 [submodule "server/gptengine"]
 	path = server/gptengine
 	url = git@bitbucket.org-Ali-Abbas-Personal:ali-abbas-personal/gptengine.git
