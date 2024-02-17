@@ -10,5 +10,5 @@ Server/db.sqlite3
 Server/.idea
 /server/db.sqlite3
 /.idea/
-/media/audios/*.wav
-/output/audios/*.wav
+/server/media/audios/*.wav
+/server/output/audio/*.wav
