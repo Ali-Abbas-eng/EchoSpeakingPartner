@@ -1,18 +1,20 @@
 import json
-from channels.generic.websocket import WebsocketConsumer
-from asgiref.sync import async_to_sync
+from channels.generic.websocket import AsyncWebsocketConsumer
+from gptengine import ai_request_handlers
+from django.conf import settings
 
 
-class SpeakingSessionConsumer(WebsocketConsumer):
-    def connect(self):
-        self.room_group_name = 'speaking_session'
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name,
-            self.channel_name
-        )
+class SpeakingSessionConsumer(AsyncWebsocketConsumer):
+    def __init__(self):
+        super().__init__()
+        self.ai_processor = ai_request_handlers.BaseConversationalist(settings.MEDIA_ROOT)
 
-        self.accept()
+    async def connect(self):
+        await self.accept()
+        await self.send(text_data=json.dumps({"type": "connection_established",
+                                              "message": "You are now connected"}))
 
-    def receive(self, text_data=None, bytes_data=None):
-        audio = bytes_data
-        text = None
+    async def receive(self, text_data=None, bytes_data=None):
+        if bytes_data:
+            response = self.ai_processor(bytes_data, message_id=1)
+            await self.send(text_data=json.dumps(response))

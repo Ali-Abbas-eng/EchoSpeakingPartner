@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Create your views here.
+
+def chat_page(request, *args, **kwargs):
+    context = {}
+    return render(request, 'speaking_session/chat_page.html', context)
+
