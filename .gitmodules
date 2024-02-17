@@ -6,6 +6,6 @@
 	path = phoneclient
 	url = git@bitbucket.org:ali-abbas-personal/phoneclient.git
 
-[submodule "Server/gptengine"]
-	path = Server/gptengine
-	url = git@bitbucket.org:ali-abbas-personal/gptengine.git
+[submodule "server/gptengine"]
+	path = server/gptengine
+	url = git@bitbucket.org-Ali-Abbas-Personal:ali-abbas-personal/gptengine.git
