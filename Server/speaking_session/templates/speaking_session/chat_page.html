@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Hello, Welcome to Echo Speaking Partner</h1>
+        <div>
+            <form id="form">
+                <input type="text" name="message"/>
+                <button id="recordButton">Start Recording</button>
+                <button id="stopButton" disabled>Stop Recording</button>
+                <button id="playButton" disabled>Play Audio</button>
+            </form>
+        </div>
+
+        <script type="text/javascript">
+            let url = `ws://${window.location.host}/ws/socket-server/`;
+            const chat_socket = new WebSocket(url);
+            chat_socket.binaryType = 'arraybuffer';  // Add this line
+
+            let mediaRecorder;
+            let recordedChunks = [];
+
+            document.getElementById('recordButton').addEventListener('click', function() {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        mediaRecorder = new MediaRecorder(stream);
+                        mediaRecorder.start();
+
+                        mediaRecorder.addEventListener('dataavailable', function(e) {
+                            recordedChunks.push(e.data);
+                        });
+
+                        mediaRecorder.addEventListener('stop', function() {
+                            let blob = new Blob(recordedChunks, {
+                                type: 'audio/wav'
+                            });
+                            let reader = new FileReader();
+                            reader.onload = function() {
+                                chat_socket.send(reader.result);
+                            }
+                            reader.readAsArrayBuffer(blob);
+                            recordedChunks = [];
+                        });
+
+                        document.getElementById('stopButton').disabled = false;
+                    });
+            });
+
+            document.getElementById('stopButton').addEventListener('click', function() {
+                if (mediaRecorder) {
+                    mediaRecorder.stop();
+                }
+                document.getElementById('stopButton').disabled = true;
+            });
+
+            document.getElementById('playButton').addEventListener('click', function() {
+                let audio = new Audio(URL.createObjectURL(new Blob(recordedChunks)));
+                audio.play();
+            });
+
+            chat_socket.onmessage = function (event){
+                chat_socket.onmessage = function (event){
+                let data = JSON.parse(event.data);
+                console.log('Data: ', data);
+                if (data.audio_url) {
+                    let audio = new Audio(data.audio_url);
+                    audio.play();
+                }
+                };
+            };
+
+            let form = document.getElementById("form");
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let message = e.target.message.value;
+                chat_socket.send(JSON.stringify(
+                    {
+                        "message": message,
+                    }
+                ));
+                form.reset();
+            });
+        </script>
+    </body>
+</html>
