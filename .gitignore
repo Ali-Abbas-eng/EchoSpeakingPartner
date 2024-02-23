@@ -9,6 +9,6 @@ Server/db.sqlite3
 /ChatGPTDataEngine/secret
 Server/.idea
 /server/db.sqlite3
-/.idea/
+.idea/*
 /server/media/audios/*.wav
 /server/output/audio/*.wav
