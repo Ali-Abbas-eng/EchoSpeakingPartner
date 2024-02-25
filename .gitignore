@@ -14,3 +14,4 @@ Server/.idea
 /server/output/audio/*.wav
 .env.dev
 .env.prod
+.env.test
