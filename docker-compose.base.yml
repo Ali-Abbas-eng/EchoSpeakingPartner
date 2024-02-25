@@ -2,11 +2,9 @@ version: '3'
 services:
   web:
     build: .
-    image: echo_image  # Set your desired image name
-    env_file:
-      - .env.dev  # Use the development environment variables
+    image: echo_image
     ports:
       - "8000:8000"  # Expose port 8000
     volumes:
       - .:/app
-    command: ["python", "/app/server/manage.py", "runserver"]
+    command: ["python", "/app/server/manage.py", "runserver", "0.0.0.0:8000" ]
