@@ -80,15 +80,5 @@ fi
 
 echo ".env.dev file updated successfully."
 
-# Create a PostgreSQL database using Docker
-if ! grep -q "DATABASE_USERNAME" .env.dev && ! grep -q "DATABASE_PASSWORD" .env.dev; then
-  echo "Creating PostgreSQL database..."
-  docker run --name some-postgres -e POSTGRES_USER=$database_username -e POSTGRES_PASSWORD=$database_password -d postgres
-  echo "PostgreSQL database created successfully."
-fi
-
-# Export the variables so they are available in the current shell
-export $(grep -v '^#' .env.dev | xargs)
-
 # Pause the script
 read -p "Press enter to continue"
