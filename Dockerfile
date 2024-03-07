@@ -36,6 +36,3 @@ CMD ["/app/iniinitialise_dev_env.sh"]
 
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
-
-# Run app.py when the container launches
-CMD ["python", "/app/server/manage.py", "runserver"]
